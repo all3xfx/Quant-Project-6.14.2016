@@ -149,7 +149,7 @@ def ols_prediction_newData(X,y, path):
     index = index.drop(pd.Timestamp('2014-10-13 00:00:00'))
     
     df = pd.DataFrame(index=index)
-    df['S1'] = y_predict
+    df['value'] = y_predict
     filePathString = path + 'predictions.csv'
     df.to_csv(filePathString)
     print(df)
@@ -218,7 +218,7 @@ if __name__ == "__main__":
     #### INPUT, change symbolMVOLS to check new stocks ####
     symbolsMVOLS = [ 'S6']
     res = regression_analysis(dfCleaned, symbolsMVOLS)
-    
+    print(res)
     
     #Training and testing of model
     #Define training and test sizes -  50/50 split
