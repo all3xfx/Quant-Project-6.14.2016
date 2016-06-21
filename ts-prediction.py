@@ -58,16 +58,16 @@ def scatter_plot(df, symbol2):
     df - the dataframe to read in
     symbol2 - The symbol to plot against S1
     '''
-    T=np.arctan2(df['S1'], df[symbol2])    
+    T=np.arctan2(df['S3'], df[symbol2])    
     
-    plt.ylabel('Series S1')
-    plt.xlabel('%s' % symbol2)
-    plt.title('%s and %s Price Scatterplot' % ('S1', symbol2))
-    plt.scatter(df['S1'], df[symbol2], s=25,c=T,alpha=0.7)
+    plt.ylabel('Stock S3')
+    plt.xlabel('Stock %s' % symbol2)
+    plt.title('%s and %s Price Scatterplot' % ('S3', symbol2))
+    plt.scatter(df['S3'], df[symbol2], s=25,c=T,alpha=0.7)
     
     #Best Fit line
     x = df[symbol2]
-    y = df['S1']
+    y = df['S3']
     m,b=np.polyfit(x,y,1)
     plt.plot(x, m*x + b, '-')
     plt.show()
@@ -115,7 +115,7 @@ def ols_trainTest(X,y, start_test):
     #plt.scatter(X_test['S5'], y_test,  color='purple', label='S5')
     plt.title("OLS Prediction of S1")
     plt.xlabel("Stock Returns - S6")
-    plt.ylabel("Stock Returns Response - S1")
+    plt.ylabel("Stock Returns Response - S3")
     plt.legend()
     plt.grid()
     fit = np.polyfit(X_train['S6'], y_train, deg=1)
@@ -201,34 +201,37 @@ if __name__ == "__main__":
     df = read_CSV(filePathString)
     dfCleaned = df_cleaner(df)
     
-    #### INPUT lag input #####
+    # INPUT "lags" change the number of days to test the models
     lags = 0
 
     #Lag analysis -  Change the lags value to get results of all
-    # stocks and the lienar regression analysis summary
-    lag_analysis(lags, dfCleaned)
+    # stocks and the linear regression analysis summary
+    #lag_analysis(lags, dfCleaned)
     
     
-    # Stock analysis
-    lag_analysis(0 ,dfCleaned)
-    
-    
+    # Stock analysis - reused lag function with 0 lags
+    #lag_analysis(0 ,dfCleaned)
+        
     
     # Multivariate Analysis
-    #### INPUT, change symbolMVOLS to check new stocks ####
+    #INPUT, change symbolMVOLS to check new stocks For example
+    # symbolsMVOLS = ['S1', 'S6'] to test these two stocks
     symbolsMVOLS = [ 'S6']
     res = regression_analysis(dfCleaned, symbolsMVOLS)
     print(res)
     
     #Training and testing of model
     #Define training and test sizes -  50/50 split
+    # we determined S6 is the predictor, but any can be tested here
     start_test=25
+    #For X, input the predictor stock , in this case S6
     X = dfCleaned[['S6']]
-    y = dfCleaned['S1']
+    y = dfCleaned['S3']
     ols_trainTest(X, y, start_test)
+    #This function will predict S1 based on X
     ols_prediction_newData(X,y, path)
     
     
     
-    #Determining trends
+    #Determining trends, produces a plot
     trend_plot(dfCleaned, 'S6')
