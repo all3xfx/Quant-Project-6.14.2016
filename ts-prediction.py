@@ -206,31 +206,29 @@ if __name__ == "__main__":
 
     #Lag analysis -  Change the lags value to get results of all
     # stocks and the lienar regression analysis summary
-    '''
     lag_analysis(lags, dfCleaned)
-    '''
-    # Stock analysis
     
-    # lag_analysis(0 ,dfCleaned)
+    
+    # Stock analysis
+    lag_analysis(0 ,dfCleaned)
+    
     
     
     # Multivariate Analysis
     #### INPUT, change symbolMVOLS to check new stocks ####
-    
     symbolsMVOLS = [ 'S6']
-    #res = regression_analysis(dfCleaned, symbolsMVOLS)
+    res = regression_analysis(dfCleaned, symbolsMVOLS)
     
     
     #Training and testing of model
     #Define training and test sizes -  50/50 split
     start_test=25
-    X = dfCleaned[['S5']]
-    y = dfCleaned['S3']
+    X = dfCleaned[['S6']]
+    y = dfCleaned['S1']
     ols_trainTest(X, y, start_test)
-    
     ols_prediction_newData(X,y, path)
     
-
+    
     
     #Determining trends
     trend_plot(dfCleaned, 'S6')
